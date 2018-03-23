@@ -1,4 +1,5 @@
-#pragma once
+#ifndef POINTS_H
+#define POINTS_H
 
 #include<utility>
 
@@ -10,14 +11,15 @@ public:
 	Points(int x, int y, const char* ch, int n, Forma);
 	virtual ~Points();
 
-	const char* getChars();
-	Forma getForma();
-	int getX();
-	int getY();
+	const char* getChars() const;
+	Forma getForma() const;
+	int getX() const;
+	int getY() const;
+	bool intersect(const Points&) const;
 
 protected:
-	char chars[9];
-	Forma forma;
-	int x, y;
+	char chars_[9];
+	Forma forma_;
+	int x_, y_;
 };
-
+#endif POINTS_H

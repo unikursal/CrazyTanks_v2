@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SHOT_H
+#define SHOT_H
 
 #include "Points.h"
 #include "Util.h"
@@ -11,12 +12,13 @@ public:
 	~Shot();
 
 	void move();
-	int getIdTank();
-	Direction getDirection();
+	int getIdTank() const;
+	Direction getDirection() const;
 
 private:
-	int idTank;
-	Direction direction;
+	int idTank_;
+	Direction direction_;
 
 };
+#endif SHOT_H
 

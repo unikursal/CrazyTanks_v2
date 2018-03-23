@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 			break;
 		}
 
-		Sleep(50);
+		Sleep(100);
 	}
 
 m:;
@@ -42,23 +42,37 @@ m:;
 		GetAsyncKeyState(VK_DOWN);
 	}
 
+	int res;
+
 	while (true){
-		gl.update();
+		res = gl.update();
+		if (res == LOSE){
+			system("cls");
+			std::cout << "You lose\n";
+			std::cin.get();
+			break;
+		}
+		if (res == WIN){
+			system("cls");
+			std::cout << "You win\n";
+			std::cin.get();
+			break;
+		}
 
 		if (GetAsyncKeyState(VK_LEFT)){
-			gl.moveTank(Direction::LEFT);
+			gl.moveUserTank(Direction::LEFT);
 		}
 
 		if (GetAsyncKeyState(VK_RIGHT)){
-			gl.moveTank(Direction::RIGHT);
+			gl.moveUserTank(Direction::RIGHT);
 		}
 
 		if (GetAsyncKeyState(VK_DOWN)){
-			gl.moveTank(Direction::DOWN);
+			gl.moveUserTank(Direction::DOWN);
 		}
 
 		if (GetAsyncKeyState(VK_UP)){
-			gl.moveTank(Direction::UP);
+			gl.moveUserTank(Direction::UP);
 		}
 
 		if (GetAsyncKeyState(VK_SPACE)){
@@ -69,9 +83,18 @@ m:;
 			system("cls");
 			break;
 		}
+
+		Sleep(50);
 	}
 
+	gl.finish();
+
 	std::cout << "Play again press TAB.\nExit press ESC.\n";
+
+	{
+		GetAsyncKeyState(VK_ESCAPE);
+		GetAsyncKeyState(VK_TAB);
+	}
 
 	while (true){
 		if (GetAsyncKeyState(VK_ESCAPE)){
@@ -82,7 +105,7 @@ m:;
 			goto m;
 		}
 
-		Sleep(50);
+		Sleep(100);
 	}
 
 	delete myStrategy;

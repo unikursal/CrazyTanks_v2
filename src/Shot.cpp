@@ -1,9 +1,9 @@
 #include "Shot.h"
 
-
-Shot::Shot(int n, int x, int y, Direction dir) : Points(x, y, FORMA_SHOT, 1, Forma::ONE)
+Shot::Shot(int idTank, int x, int y, Direction direction) : Points(x, y, FORMA_SHOT, 1, Forma::ONE)
 {
-	
+	idTank_ = idTank;
+	direction_ = direction;
 }
 
 
@@ -14,31 +14,31 @@ Shot::~Shot()
 void
 Shot::move()
 {
-	switch (direction){
+	switch (direction_){
 	case Direction::DOWN:
-		y++;
+		y_++;
 		break;
 	case Direction::LEFT:
-		x--;
+		x_--;
 		break;
 	case Direction::RIGHT:
-		x++;
+		x_++;
 		break;
 	case Direction::UP:
-		y--;
+		y_--;
 		break;
 	}
 
 }
 
 int
-Shot::getIdTank()
+Shot::getIdTank() const
 {
-	return idTank;
+	return idTank_;
 }
 
 Direction
-Shot::getDirection()
+Shot::getDirection() const
 {
-	return direction;
+	return direction_;
 }

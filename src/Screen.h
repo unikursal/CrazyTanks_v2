@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SCREEN_H
+#define SCREEN_H
 
 #include<iostream>
 #include<vector>
@@ -14,12 +15,14 @@ public:
 	Screen();
 	~Screen();
 
-	void updateScreen() const;
-	void show(Points);
+	void updateScreen(int usrLife, int numbTanks, int second) const;
+	void show(const Points&);
 	void clear();
-	bool canMove(Points, Direction);
+	bool canMove(const Points&, Direction) const;
 
 private:
-	char** arrayChar;
+	char** arrayChar_;
 };
+
+#endif SCREEN_H
 

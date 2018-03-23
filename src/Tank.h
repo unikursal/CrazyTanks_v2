@@ -1,4 +1,7 @@
-#pragma once
+#ifndef TANK_H
+#define TANK_H
+
+#include<ctime>
 
 #include "Points.h"
 #include "Util.h"
@@ -8,17 +11,19 @@ class Tank :
 	public Points
 {
 public:
-	Tank(int x, int y, const char*);
+	Tank(int id, int x, int y, const char*);
 	~Tank();
 
 	Shot shoot();
 	void move(Direction);
-	Direction getHeadDirect();
+	void move();
+	Direction getHeadDirect() const;
 	void turn(Direction);
-	int getId();
+	void turn();
+	int getId() const;
 
 private:
-	int id;
-	Direction headDirect;
+	int id_;
+	Direction headDirect_;
 };
-
+#endif TANK_H

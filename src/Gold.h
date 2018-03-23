@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GOLD_H
+#define GOLD_H
 
 #include "Points.h"
 #include "Util.h"
@@ -12,3 +13,4 @@ public:
 	~Gold();
 };
 
+#endif GOLD_H

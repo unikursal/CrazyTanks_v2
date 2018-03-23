@@ -3,18 +3,18 @@
 
 Screen::Screen()
 {
-	arrayChar = new char*[HEIGHT];
+	arrayChar_ = new char*[HEIGHT];
 
 	int i;
 	for (i = 0; i < HEIGHT; i++)
-		arrayChar[i] = new char[WIDTH + 1];
+		arrayChar_[i] = new char[WIDTH + 1];
 
 	int j;
 	for (i = 0; i < HEIGHT; i++){
-		arrayChar[i][WIDTH] = '\0';
+		arrayChar_[i][WIDTH] = '\0';
 
 		for (j = 0; j < WIDTH; j++)
-			arrayChar[i][j] = ' ';
+			arrayChar_[i][j] = ' ';
 	}
 }
 
@@ -23,13 +23,13 @@ Screen::~Screen()
 {
 	int i;
 	for (i = 0; i < HEIGHT; i++)
-		delete[] arrayChar[i];
+		delete[] arrayChar_[i];
 
-	delete[] arrayChar;
+	delete[] arrayChar_;
 }
 
 void
-Screen::show(Points points)
+Screen::show(const Points& points)
 {
 	int i, j, x, y;
 	const char* arrChar = points.getChars();
@@ -40,7 +40,7 @@ Screen::show(Points points)
 		x = points.getX();
 
 		for (i = 0; i < LINE_LENGTH; i++)
-			arrayChar[y + i][x] = arrChar[i];
+			arrayChar_[y + i][x] = arrChar[i];
 
 		break;
 	case Forma::LINE_HORIZONTAL:
@@ -48,11 +48,11 @@ Screen::show(Points points)
 		x = points.getX();
 
 		for (i = 0; i < LINE_LENGTH; i++)
-			arrayChar[y][x + i] = arrChar[i];
+			arrayChar_[y][x + i] = arrChar[i];
 			
 		break;
 	case Forma::ONE :
-		arrayChar[points.getY()][points.getX()] = arrChar[0];
+		arrayChar_[points.getY()][points.getX()] = arrChar[0];
 
 		break;
 	case Forma::SQUARE :
@@ -61,7 +61,7 @@ Screen::show(Points points)
 
 		for (i = 0; i < SQUARE_LINE; i++)
 			for (j = 0; j < SQUARE_LINE; j++)
-				arrayChar[y + i][x + j] = arrChar[i * 3 + j];
+				arrayChar_[y + i][x + j] = arrChar[i * 3 + j];
 
 		break;
 	}
@@ -73,12 +73,12 @@ Screen::clear()
 	int i, j;
 	for (i = 0; i < HEIGHT; i++)
 		for (j = 0; j < WIDTH; j++){
-			arrayChar[i][j] = ' ';
+			arrayChar_[i][j] = ' ';
 		}
 }
 
 bool
-Screen::canMove(Points points, Direction direction)
+Screen::canMove(const Points& points, Direction direction) const
 {
 	int width, height;
 	switch (points.getForma()){
@@ -102,7 +102,7 @@ Screen::canMove(Points points, Direction direction)
 			return false;
 
 		for (i = 0; i < width; i++)
-			if (arrayChar[y + height][x + i] != ' ')
+			if (arrayChar_[y + height][x + i] != ' ')
 				return false;
 		break;
 	case Direction::LEFT:
@@ -110,7 +110,7 @@ Screen::canMove(Points points, Direction direction)
 			return false;
 
 		for (i = 0; i < height; i++)
-			if (arrayChar[y + i][x - 1] != ' ')
+			if (arrayChar_[y + i][x - 1] != ' ')
 				return false;
 
 		break;
@@ -119,7 +119,7 @@ Screen::canMove(Points points, Direction direction)
 			return false;
 
 		for (i = 0; i < height; i++)
-			if (arrayChar[y + i][x + width] != ' ')
+			if (arrayChar_[y + i][x + width] != ' ')
 				return false;
 
 		break;
@@ -128,7 +128,7 @@ Screen::canMove(Points points, Direction direction)
 			return false;
 
 		for (i = 0; i < width; i++)
-			if (arrayChar[y - 1][x + i] != ' ')
+			if (arrayChar_[y - 1][x + i] != ' ')
 				return false;
 		break;
 	}
@@ -137,7 +137,7 @@ Screen::canMove(Points points, Direction direction)
 }
 
 void
-Screen::updateScreen() const
+Screen::updateScreen(int usrLife, int numbTanks, int second) const
 {
 	COORD coord;
 	coord.X = 0;
@@ -147,5 +147,9 @@ Screen::updateScreen() const
 
 	int i;
 	for (i = 0; i < HEIGHT; i++)
-		std::fputs(arrayChar[i], stdout);
+		std::fputs(arrayChar_[i], stdout);
+
+	std::cout << "\nNumber tanks : " << numbTanks << "\n";
+	std::cout << "\nUser life : " << usrLife << "\n";
+	std::cout << "\nSeconds : " << second << "\n";
 }

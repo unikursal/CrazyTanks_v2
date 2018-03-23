@@ -1,6 +1,8 @@
-#pragma once
+#ifndef GAMELOGIC_H
+#define GAMELOGIC_H
 
 #include<vector>
+#include<ctime>
 
 #include "Util.h"
 #include "Tank.h"
@@ -17,23 +19,25 @@ public:
 	~GameLogic();
 
 	void shoot();
-	void moveTank(Direction);
+	void moveUserTank(Direction);
 	void start();
+	void finish();
 
-	void update();
-
-	const std::vector<Tank>& getTanks();
-	const std::vector<Wall>& getWalls();
-	const std::vector<Shot>& getShots();
-	Gold* getGold();
+	int update();
 private:
-	std::vector<Tank> tanks;
-	std::vector<Shot> shots;
-	std::vector<Wall> walls;
-	Gold *gold;
+	int userTankId_ = 0;
+	int userLife_ = 3;
+	std::clock_t timeStart_;
 
-	Screen* screen;
+	std::vector<Tank> tanks_;
+	std::vector<Shot> shots_;
+	std::vector<Wall> walls_;
+	Gold *gold_;
 
-	Strategy* strategy;
+	Screen* screen_;
+
+	Strategy* strategy_;
 };
+
+#endif GAMELOGIC_H
 
