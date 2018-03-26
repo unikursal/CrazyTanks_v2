@@ -11,7 +11,7 @@ MyStrategy::~MyStrategy()
 }
 
 void
-MyStrategy::logic(std::vector<Shot>& shots, const std::vector<Wall>& walls, std::vector<Tank>& tanks, Gold* gold)
+MyStrategy::logic(std::vector<Shot>& shots, const std::vector<Wall>& walls, std::vector<Tank>& tanks, const Gold& gold)
 {
 	srand(time(0));
 
@@ -71,7 +71,7 @@ MyStrategy::logic(std::vector<Shot>& shots, const std::vector<Wall>& walls, std:
 }
 
 int
-MyStrategy::canShoot(int n, std::vector<Tank>& tanks, const std::vector<Wall>& walls, Gold* gold)
+MyStrategy::canShoot(int n, std::vector<Tank>& tanks, const std::vector<Wall>& walls, const Gold& gold)
 {
 	Direction direction[4] = { Direction::DOWN, Direction::LEFT, Direction::RIGHT, Direction::UP };
 
@@ -91,7 +91,7 @@ MyStrategy::canShoot(int n, std::vector<Tank>& tanks, const std::vector<Wall>& w
 			return static_cast<int>(Direction::RIGHT);
 	}
 
-	int goldX = gold->getX(), goldY = gold->getY();
+	int goldX = gold.getX(), goldY = gold.getY();
 
 	if (x + 1 == goldX){
 		if (goldY < y)

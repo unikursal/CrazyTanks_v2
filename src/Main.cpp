@@ -9,10 +9,11 @@
 
 int main(int argc, char* argv[])
 {
+	const int widthWindow = 800, heightWindow = 650;
 	HWND console = GetConsoleWindow();
 	RECT r;
 	GetWindowRect(console, &r);
-	MoveWindow(console, r.left, r.top, 800, 650, TRUE);
+	MoveWindow(console, r.left, r.top, widthWindow, heightWindow, TRUE);
 
 	std::cout << "Game CrazyTanks\nPlay press TAB.\nExit press ESC";
 
