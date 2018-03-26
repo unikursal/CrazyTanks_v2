@@ -9,7 +9,7 @@ class Points
 {
 public:
 	Points(int x, int y, const char* ch, int n, Forma);
-	virtual ~Points();
+	~Points();
 
 	const char* getChars() const;
 	Forma getForma() const;
