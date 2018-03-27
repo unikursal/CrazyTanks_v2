@@ -9,7 +9,7 @@ class Wall :
 	public Points
 {
 public:
-	Wall(int x, int y, Forma);
+	Wall(int x, int y, int width, int height);
 	~Wall();
 
 	void attack(Shot);

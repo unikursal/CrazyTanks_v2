@@ -15,7 +15,7 @@ public:
 	Strategy();
 	virtual ~Strategy();
 
-	virtual void logic(std::vector<Shot>&, const std::vector<Wall>&, std::vector<Tank>&, Gold*);
-	virtual int canShoot(int n, std::vector<Tank>&, const std::vector<Wall>&, Gold*);
+	virtual void logic(std::vector<Shot>&, const std::vector<Wall>&, std::vector<Tank>&, const Gold&) = 0;
+	virtual int canShoot(int n, std::vector<Tank>&, const std::vector<Wall>&, const Gold&) = 0;
 };
 #endif STRATEGY_H

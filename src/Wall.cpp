@@ -1,7 +1,7 @@
 #include "Wall.h"
 
 
-Wall::Wall(int x, int y, Forma f) : Points(x, y, FORMA_WALL, LINE_LENGTH, f)
+Wall::Wall(int x, int y, int width, int height) : Points(x, y, FORMA_WALL, width, height)
 {
 	int i;
 	for (i = 0; i < LINE_LENGTH; i++)
@@ -34,51 +34,14 @@ Wall::attack(Shot shot)
 }
 
 bool
-Wall::intersect(const Points& inpPints) const
+Wall::intersect(const Points& inpPoints) const
 {
-	int width, height, inpX = inpPints.getX(), inpY = inpPints.getY(), inpWidth, inpHeight;
-	switch (forma_){
-	case Forma::ONE:
-		width = 1;
-		height = 1;
-		break;
-	case Forma::LINE_HORIZONTAL:
-		width = LINE_LENGTH;
-		height = 1;
-		break;
-	case Forma::LINE_VERTICAL:
-		width = 1;
-		height = LINE_LENGTH;
-		break;
-	case Forma::SQUARE:
-		width = SQUARE_LINE;
-		height = SQUARE_LINE;
-		break;
-	}
-
-	switch (inpPints.getForma()){
-	case Forma::ONE:
-		inpWidth = 1;
-		inpHeight = 1;
-		break;
-	case Forma::LINE_HORIZONTAL:
-		inpWidth = LINE_LENGTH;
-		inpHeight = 1;
-		break;
-	case Forma::LINE_VERTICAL:
-		inpWidth = 1;
-		inpHeight = LINE_LENGTH;
-		break;
-	case Forma::SQUARE:
-		inpWidth = SQUARE_LINE;
-		inpHeight = SQUARE_LINE;
-		break;
-	}
+	int inpX = inpPoints.getX(), inpY = inpPoints.getY(), inpWidth = inpPoints.getWidth(), inpHeight = inpPoints.getHeight();
 
 	int i, j, k, l;
 
-	for (i = y_; i < y_ + height; i++)
-		for (j = x_; j < x_ + width; j++)
+	for (i = y_; i < y_ + height_; i++)
+		for (j = x_; j < x_ + width_; j++)
 			for (k = inpY; k < inpY + inpHeight; k++)
 				for (l = inpX; l < inpX + inpWidth; l++)
 					if (i == k && j == l){

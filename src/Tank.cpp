@@ -1,7 +1,7 @@
 #include "Tank.h"
 
 
-Tank::Tank(int id, int x, int y, const char* points) : Points(x, y, points, 9, Forma::SQUARE)
+Tank::Tank(int id, int x, int y, const char* points) : Points(x, y, points, SQUARE_LENGTH, SQUARE_LENGTH)
 {
 	id_ = id;
 	headDirect_ = Direction::UP;

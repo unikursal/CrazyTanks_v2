@@ -1,6 +1,5 @@
 #include "Screen.h"
 
-
 Screen::Screen()
 {
 	arrayChar_ = new char*[HEIGHT];
@@ -31,40 +30,13 @@ Screen::~Screen()
 void
 Screen::show(const Points& points)
 {
-	int i, j, x, y;
+	int i, j, x = points.getX(), y = points.getY(), width = points.getWidth(), height = points.getHeight();
+
 	const char* arrChar = points.getChars();
 
-	switch (points.getForma()){
-	case Forma::LINE_VERTICAL :
-		y = points.getY();
-		x = points.getX();
-
-		for (i = 0; i < LINE_LENGTH; i++)
-			arrayChar_[y + i][x] = arrChar[i];
-
-		break;
-	case Forma::LINE_HORIZONTAL:
-		y = points.getY();
-		x = points.getX();
-
-		for (i = 0; i < LINE_LENGTH; i++)
-			arrayChar_[y][x + i] = arrChar[i];
-			
-		break;
-	case Forma::ONE :
-		arrayChar_[points.getY()][points.getX()] = arrChar[0];
-
-		break;
-	case Forma::SQUARE :
-		x = points.getX();
-		y = points.getY();
-
-		for (i = 0; i < SQUARE_LINE; i++)
-			for (j = 0; j < SQUARE_LINE; j++)
-				arrayChar_[y + i][x + j] = arrChar[i * 3 + j];
-
-		break;
-	}
+	for (i = 0; i < height; i++)
+		for (j = 0; j < width; j++)
+		arrayChar_[y + i][x + j] = arrChar[i * width + j];
 }
 
 void
@@ -80,19 +52,7 @@ Screen::clear()
 bool
 Screen::canMove(const Points& points, Direction direction) const
 {
-	int width, height;
-	switch (points.getForma()){
-		case Forma::ONE:
-			width = 1;
-			height = 1;
-			break;
-		case Forma::SQUARE:
-			width = SQUARE_LINE;
-			height = SQUARE_LINE;
-			break;
-		default:
-			return false;
-	}
+	int width = points.getWidth(), height = points.getHeight();
 
 	int x = points.getX(), y = points.getY(), i;
 

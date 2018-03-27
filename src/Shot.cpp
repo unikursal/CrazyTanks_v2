@@ -1,6 +1,6 @@
 #include "Shot.h"
 
-Shot::Shot(int idTank, int x, int y, Direction direction) : Points(x, y, FORMA_SHOT, 1, Forma::ONE)
+Shot::Shot(int idTank, int x, int y, Direction direction) : Points(x, y, FORMA_SHOT, POINT_LENGTH, POINT_LENGTH)
 {
 	idTank_ = idTank;
 	direction_ = direction;
