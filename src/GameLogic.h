@@ -11,6 +11,7 @@
 #include "Wall.h"
 #include "Strategy.h"
 #include "Screen.h"
+#include "Util.h"
 
 class GameLogic
 {
@@ -25,16 +26,16 @@ public:
 
 	int update();
 private:
-	int userTankId_ = 0;
-	int userLife_ = 3;
+	int userTankId_;
+	int userLife_;
+	Gold gold_;
+	Screen screen_;
+
 	std::clock_t timeStart_;
 
 	std::vector<Tank> tanks_;
 	std::vector<Shot> shots_;
 	std::vector<Wall> walls_;
-	Gold *gold_;
-
-	Screen* screen_;
 
 	Strategy* strategy_;
 };
