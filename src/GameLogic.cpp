@@ -2,12 +2,16 @@
 
 GameLogic::GameLogic(Strategy* strategy)
 {
+	screen_ = new Screen();
+
 	strategy_ = strategy;
 }
 
 
 GameLogic::~GameLogic()
 {
+	delete screen_;
+	delete gold_;
 }
 
 void
@@ -18,35 +22,37 @@ GameLogic::start()
 
 	{
 		int x = HEIGHT / 2, y = HEIGHT / 2;
+		gold_ = new Gold(x, y);
 
 		int i;
 		for (i = 0; i < HEIGHT; i += LINE_LENGTH){
-			walls_.push_back(Wall(0, i, 1, LINE_LENGTH));
-			walls_.push_back(Wall(WIDTH - 1, i, 1, LINE_LENGTH));
+			walls_.push_back(Wall(0, i, Forma::LINE_VERTICAL));
+			walls_.push_back(Wall(WIDTH - 1, i, Forma::LINE_VERTICAL));
 		}
 
 		for (i = 0; i < WIDTH; i += LINE_LENGTH){
-			walls_.push_back(Wall(i, 0, LINE_LENGTH, 1));
-			walls_.push_back(Wall(i, HEIGHT - 1, LINE_LENGTH, 1));
+			walls_.push_back(Wall(i, 0, Forma::LINE_HORIZONTAL));
+			walls_.push_back(Wall(i, HEIGHT - 1, Forma::LINE_HORIZONTAL));
 		}
 
-		walls_.push_back(Wall(x - 1, y - 2, 1, LINE_LENGTH));
-		walls_.push_back(Wall(x - 2, y - 2, 1, LINE_LENGTH));
+		walls_.push_back(Wall(x - 1, y - 2, Forma::LINE_VERTICAL));
+		walls_.push_back(Wall(x - 2, y - 2, Forma::LINE_VERTICAL));
 
-		walls_.push_back(Wall(x + 1, y - 2, 1, LINE_LENGTH));
-		walls_.push_back(Wall(x + 2, y - 2, 1, LINE_LENGTH));
+		walls_.push_back(Wall(x + 1, y - 2, Forma::LINE_VERTICAL));
+		walls_.push_back(Wall(x + 2, y - 2, Forma::LINE_VERTICAL));
 
-		walls_.push_back(Wall(x - 2, y - 3, LINE_LENGTH, 1));
-		walls_.push_back(Wall(x - 2, y - 4, LINE_LENGTH, 1));
+		walls_.push_back(Wall(x - 2, y - 3, Forma::LINE_HORIZONTAL));
+		walls_.push_back(Wall(x - 2, y - 4, Forma::LINE_HORIZONTAL));
 
-		walls_.push_back(Wall(x - 2, y + 3, LINE_LENGTH, 1));
-		walls_.push_back(Wall(x - 2, y + 4, LINE_LENGTH, 1));
+		walls_.push_back(Wall(x - 2, y + 3, Forma::LINE_HORIZONTAL));
+		walls_.push_back(Wall(x - 2, y + 4, Forma::LINE_HORIZONTAL));
 
 		tanks_.push_back(Tank(tanks_.size(), WIDTH / 2, HEIGHT - 10, FORMA_USER_TANK));
 	}
 
 	srand(time(0));
 
+	Forma arr[2] = { LINE_VERTICAL, LINE_HORIZONTAL };
 	int i, x, y, f, j, notLoop = 0;
 	bool addWall = true;
 
@@ -56,9 +62,7 @@ GameLogic::start()
 		y = rand() % (HEIGHT - 15) + 10;
 
 		f = rand() % 2;
-		int arr[2] = { LINE_LENGTH, 1 };
-
-		Wall w(x, y, arr[f], arr[1 - f]);
+		Wall w(x, y, arr[f]);
 
 		for (j = 0; j < walls_.size(); j++)
 			if (w.intersect(walls_[j]) || w.intersect(tanks_[0])){
@@ -130,7 +134,7 @@ GameLogic::moveUserTank(Direction direction)
 		tanks_[0].turn(direction);
 	}
 	else{
-		if (screen_.canMove(tanks_[0], direction))
+		if (screen_->canMove(tanks_[0], direction))
 		tanks_[0].move(direction);
 	}
 }
@@ -156,11 +160,11 @@ int
 GameLogic::update()
 {
 	int i;
-	screen_.clear();
+	screen_->clear();
 	for (i = 0; i < walls_.size(); i++)
-		screen_.show(walls_[i]);
+		screen_->show(walls_[i]);
 
-	screen_.show(gold_);
+	screen_->show(*gold_);
 
 	std::vector<Shot>::iterator it = shots_.begin();
 	bool erase = false;
@@ -219,7 +223,7 @@ GameLogic::update()
 		if (erase)
 			continue;
 
-		if (gold_.intersect(*it) && it->getIdTank() != userTankId_)
+		if (gold_->intersect(*it) && it->getIdTank() != userTankId_)
 			return LOSE;
 
 		if (!erase)
@@ -229,14 +233,14 @@ GameLogic::update()
 	strategy_->logic(shots_, walls_, tanks_, gold_);
 
 	for (i = 0; i < shots_.size(); i++)
-		screen_.show(shots_[i]);
+		screen_->show(shots_[i]);
 
 	for (i = 0; i < tanks_.size(); i++)
-		screen_.show(tanks_[i]);
+		screen_->show(tanks_[i]);
 
 
 	double duration = (std::clock() - timeStart_) / (double)CLOCKS_PER_SEC;
-	screen_.updateScreen(userLife_, tanks_.size() - 1, static_cast<int>(duration));
+	screen_->updateScreen(userLife_, tanks_.size() - 1, static_cast<int>(duration));
 
 	return 0;
 }

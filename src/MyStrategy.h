@@ -16,8 +16,8 @@ public:
 	MyStrategy();
 	~MyStrategy();
 
-	void logic(std::vector<Shot>&, const std::vector<Wall>&, std::vector<Tank>&, const Gold&);
-	int canShoot(int n, std::vector<Tank>&, const std::vector<Wall>&, const Gold&);
+	void logic(std::vector<Shot>&, const std::vector<Wall>&, std::vector<Tank>&, Gold*);
+	int canShoot(int n, std::vector<Tank>&, const std::vector<Wall>&, Gold*);
 
 private:
 	int tmpSpeed_ = 0;
